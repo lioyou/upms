@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leecp.upms.dao.mapper.UpmsApiMapper">
+
+	<!-- 权限 -->
+  <resultMap id="UpmsPermissionResultMap" type="com.leecp.upms.dao.model.UpmsPermission" >
+    <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="createdby" property="createdby" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="orders" property="orders" jdbcType="BIGINT" />
+  </resultMap>
+	<!-- 角色  -->
+  <resultMap id="UpmsRoleResultMap" type="com.leecp.upms.dao.model.UpmsRole" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="orders" property="orders" jdbcType="BIGINT" />
+  </resultMap>
+
+	<!-- 权限字段 -->
+	<sql id="UpmsPermission_Column_List">
+		permission_id, system_id, pid, name, type, label, uri, icon, status, createtime,updatetime,orders,createdby,description
+	</sql>
+
+	<!-- 角色字段 -->
+	<sql id="UpmsRole_Column_List">
+		role_id, name, label, status,description, createtime, updatetime,orders
+	</sql>
+
+	<!-- 根据用户获取所拥有的权限 -->
+	<select id="selectUpmsPermissionByUpmsUserId" parameterType="java.lang.Integer" resultMap="UpmsPermissionResultMap">
+		select
+			<include refid="UpmsPermission_Column_List" />
+		from upms_permission up where up.`status`=1 and up.permission_id in (
+			select permission_id from upms_role_permission urp where urp.role_id in (
+				select uur.role_id role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+			)
+			union
+			select permission_id from upms_user_permission uup1 where uup1.user_id=#{upmsUserId,jdbcType=INTEGER} and uup1.type=1
+		)
+		and up.permission_id not in (
+			select permission_id from upms_user_permission uup2 where uup2.user_id=#{upmsUserId,jdbcType=INTEGER} and uup2.type=-1
+		) order by up.orders asc
+	</select>
+
+	<!-- 根据用户id获取所属的角色 -->
+	<select id="selectUpmsRoleByUpmsUserId" parameterType="java.lang.Integer" resultMap="UpmsRoleResultMap">
+		select
+			<include refid="UpmsRole_Column_List" />
+		from upms_role ur where ur.role_id in (
+			select uur.role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+		)
+	</select>
+	
+		<!-- 根据角色id获取所属的权限 -->
+	<select id="selectUpmsPermissionByUpmsRoleId" parameterType="java.lang.Long" resultMap="UpmsPermissionResultMap">
+		select
+			<include refid="UpmsPermission_Column_List" />
+		from upms_permission up where up.permission_id in (
+			select urp.permission_id from upms_role_permission urp where urp.role_id=#{upmsRoleId,jdbcType=INTEGER}
+		)
+	</select>
+
+	<!-- 使用Ehcache作为二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+</mapper>

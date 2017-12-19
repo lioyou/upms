@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+	  <groupId>com.leecp</groupId>
+	  <artifactId>upms</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>upms-admin</artifactId>
+  <packaging>war</packaging>
+  
+  <name>upms-admin</name>
+  <url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.leecp</groupId>
+			<artifactId>upms-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+        <!-- JSP依赖 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        
+        
+         <!-- 验证 use hibernate-validator to validate entity before enter controller -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.unbiz</groupId>
+            <artifactId>fluent-validator</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.slf4j</groupId>
+            		<artifactId>slf4j-log4j12</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+        
+         <!-- solr依赖-->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+	</dependencies>
+  <build>
+    <finalName>upms-admin</finalName>
+    <plugins>
+    	<plugin>  
+        <groupId>org.eclipse.jetty</groupId>  
+        <artifactId>jetty-maven-plugin</artifactId>  
+        <version>9.4.5.v20170502</version>  
+        <configuration>  
+            <scanIntervalSeconds>10</scanIntervalSeconds>  
+            <httpConnector>  
+                <port>8080</port>  
+            </httpConnector>  
+            <webApp>  
+                <contextPath>/upms-admin</contextPath>  
+            </webApp>  
+        </configuration>  
+    </plugin>  
+    </plugins>
+  </build>
+</project>

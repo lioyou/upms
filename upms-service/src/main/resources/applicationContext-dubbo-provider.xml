@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="upms-service"/>
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <!-- 接口服务 -->
+    <bean id="upmsApiService" class="com.leecp.upms.service.impl.UpmsApiServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsApiService" ref="upmsApiService"/>
+	
+	<!-- 用户服务 -->
+	<bean id="upmsUserService" class="com.leecp.upms.service.impl.UpmsUserServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsUserService" ref="upmsUserService"/>
+    
+    <!-- 系统服务 -->
+	<bean id="upmsSystemService" class="com.leecp.upms.service.impl.UpmsSystemServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsSystemService" ref="upmsSystemService"/>
+    
+    <!-- 权限服务 -->
+	<bean id="upmsPermissionService" class="com.leecp.upms.service.impl.UpmsPermissionServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsPermissionService" ref="upmsPermissionService"/>
+    
+    <!-- 角色服务 -->
+	<bean id="upmsRoleService" class="com.leecp.upms.service.impl.UpmsRoleServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsRoleService" ref="upmsRoleService"/>
+    
+    <!-- 组织服务 -->
+	<bean id="upmsOrganizationService" class="com.leecp.upms.service.impl.UpmsOrganizationServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsOrganizationService" ref="upmsOrganizationService"/>
+    
+    <!-- 用户角色服务 -->
+	<bean id="upmsUserRoleService" class="com.leecp.upms.service.impl.UpmsUserRoleServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsUserRoleService" ref="upmsUserRoleService"/>
+    
+    <!-- 用户权限服务 -->
+	<bean id="upmsUserPermissionService" class="com.leecp.upms.service.impl.UpmsUserPermissionServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsUserPermissionService" ref="upmsUserPermissionService"/>
+    
+    <!-- 用户组织服务 -->
+	<bean id="upmsUserOrganizationService" class="com.leecp.upms.service.impl.UpmsUserOrganizationServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsUserOrganizationService" ref="upmsUserOrganizationService"/>
+    
+    <!-- 角色权限服务 -->
+	<bean id="upmsRolePermissionService" class="com.leecp.upms.service.impl.UpmsRolePermissionServiceImpl"/>
+    <dubbo:service interface="com.leecp.upms.api.UpmsRolePermissionService" ref="upmsRolePermissionService"/>
+</beans>

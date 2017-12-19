@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+   		<!-- 配置连接池参数 -->
+   		<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+   			<property name="maxTotal" value="4096"/>
+			<property name="maxIdle" value="200"/>
+			<property name="maxWaitMillis" value="3000"/>
+			<property name="testOnBorrow" value="true"/>
+			<property name="testOnReturn" value="true"/>
+   		</bean>
+   		<!-- 数据池实现类 -->
+   		<bean id="jedisPool" class="redis.clients.jedis.JedisPool" lazy-init="false">
+   			<constructor-arg index="0" ref="poolConfig"/>
+   			<constructor-arg index="1" value="127.0.0.1" type="String"/>
+   			<constructor-arg index="2" value="10212" type="int"/>
+   		</bean>
+   		
+   		<!-- Redis静态类对数据池的依赖注入 -->
+   		<bean id="redisUtil" class="com.leecp.upms.common.util.RedisUtil">
+   			<property name="jedisPool" ref="jedisPool"/>
+   		</bean>
+</beans>

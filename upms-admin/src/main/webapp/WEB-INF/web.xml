@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>admin</display-name>
+
+  <!-- 加载spring容器 -->
+ <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:applicationContext-*.xml</param-value>
+ </context-param>
+ 	<!-- 统一编码filter -->
+    <filter>
+        <filter-name>charsetEncoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    
+
+ 	
+ 	 <!-- charset 对所有的路径进行字符过滤-->
+    <filter-mapping>
+        <filter-name>charsetEncoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+         <!-- Shiro配置 -->    
+  <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+ <listener>
+ <!-- 加载spring核心的listener -->
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ </listener>
+  
+  
+  <!-- 配置前端控制器DispatcherServlet -->
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:springMVC.xml</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>  
+  
+  
+  <!-- 首页文件映射 -->
+   <welcome-file-list> 
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 全局错误页面 -->
+  <error-page>
+    <location>/WEB-INF/error.jsp</location>
+</error-page>
+</web-app>

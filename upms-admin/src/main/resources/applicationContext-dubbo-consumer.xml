@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="upms-consumer"/>
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+    <dubbo:reference id="upmsApiService" interface="com.leecp.upms.api.UpmsApiService" />
+    
+    <dubbo:reference id="upmsUserService" interface="com.leecp.upms.api.UpmsUserService" />
+     
+    <dubbo:reference id="upmsSystemService" interface="com.leecp.upms.api.UpmsSystemService" />
+    
+    <dubbo:reference id="upmsPermissionService" interface="com.leecp.upms.api.UpmsPermissionService" />
+    
+    <dubbo:reference id="upmsRoleService" interface="com.leecp.upms.api.UpmsRoleService" />
+     
+    <dubbo:reference id="upmsUserRoleService" interface="com.leecp.upms.api.UpmsUserRoleService" />
+    
+    <dubbo:reference id="upmsUserPermissionService" interface="com.leecp.upms.api.UpmsUserPermissionService" />
+    
+    <dubbo:reference id="upmsOrganizationService" interface="com.leecp.upms.api.UpmsOrganizationService" />
+    
+    <dubbo:reference id="upmsUserOrganizationService" interface="com.leecp.upms.api.UpmsUserOrganizationService" />
+    
+    <dubbo:reference id="upmscRolePermissionService" interface="com.leecp.upms.api.UpmsRolePermissionService" />
+</beans>

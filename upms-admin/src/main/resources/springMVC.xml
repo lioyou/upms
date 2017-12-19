@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+		<!-- 导入其它配置文件 -->
+	<!--  <import resource="classpath:spring/applicationContext-*.xml"/>-->
+	<!-- 启动aop注解基于类的代理（这时需要cglib库），如果proxy-target-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理将起作用 -->
+    <aop:config proxy-target-class="true"/>
+    <!-- 一个配置节解决映射器和适配器的配置注解配置 --> 
+    <!-- validator注册全局验证器 -->
+   <!--   <mvc:annotation-driven validator="validator"></mvc:annotation-driven>-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+ 	
+ 	
+	<!-- 声明需要扫描的包 -->
+	<context:component-scan base-package="com.leecp.upms.admin.controller"></context:component-scan>
+	
+	
+	<!-- 静态资源解析，如js,css,img等 mapping表示uri-->
+	<mvc:resources location="/resources/" mapping="/resources/**"/>
+	<mvc:resources location="/" mapping="/*.jsp"/>
+	
+	
+    <!-- 配置视图解析器 
+        进行jsp解析，默认使用jstl标签，classpath下得有jstl的包
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="prefix" value="/WEB-INF/pages"/>
+    	<property name="suffix" value=".jsp"/>
+    </bean>
+    
+</beans>
